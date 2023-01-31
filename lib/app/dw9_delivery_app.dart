@@ -1,4 +1,7 @@
+import 'core/ui/theme/theme_config.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/splash/splash_page.dart';
 
 class Dw9DeliveryApp extends StatelessWidget {
   const Dw9DeliveryApp({super.key});
@@ -7,8 +10,9 @@ class Dw9DeliveryApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Delivery App',
+      theme: ThemeConfig.theme,
       routes: {
-        '/': (context) => Container(),
+        '/': (context) => const SplashPage(),
       },
     );
   }
