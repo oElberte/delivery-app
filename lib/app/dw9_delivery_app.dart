@@ -1,6 +1,6 @@
-import 'core/ui/theme/theme_config.dart';
 import 'package:flutter/material.dart';
 
+import 'core/ui/theme/theme_config.dart';
 import 'pages/splash/splash_page.dart';
 
 class Dw9DeliveryApp extends StatelessWidget {
