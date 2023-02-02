@@ -8,6 +8,7 @@ import '../../core/ui/helpers/size_extensions.dart';
 import '../../core/ui/styles/text_styles.dart';
 import '../../core/ui/widgets/delivery_app_bar.dart';
 import '../../core/ui/widgets/delivery_increment_decrement_button.dart';
+import '../../dto/order_product_dto.dart';
 import '../../models/product_model.dart';
 import 'product_detail_controller.dart';
 
@@ -82,7 +83,14 @@ class _ProductDetailPageState extends BaseState<ProductDetailPage, ProductDetail
                 child: BlocBuilder<ProductDetailController, int>(
                   builder: (context, amount) {
                     return ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop(
+                          OrderProductDto(
+                            product: widget.product,
+                            amount: amount,
+                          ),
+                        );
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
