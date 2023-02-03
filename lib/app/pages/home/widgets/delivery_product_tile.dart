@@ -11,10 +11,12 @@ import '../home_controller.dart';
 
 class DeliveryProductTile extends StatelessWidget {
   final ProductModel product;
+  final OrderProductDto? orderProduct;
 
   const DeliveryProductTile({
     super.key,
     required this.product,
+    required this.orderProduct,
   });
 
   @override
@@ -22,13 +24,16 @@ class DeliveryProductTile extends StatelessWidget {
     return InkWell(
       onTap: () async {
         final controller = context.read<HomeController>();
-        final orderProduct = await Navigator.of(context).pushNamed(
+        final orderProductResult = await Navigator.of(context).pushNamed(
           '/productDetail',
-          arguments: {'product': product},
+          arguments: {
+            'product': product,
+            'order': orderProduct,
+          },
         );
 
-        if (orderProduct != null) {
-          controller.addOrUpdateBag(orderProduct as OrderProductDto);
+        if (orderProductResult != null) {
+          controller.addOrUpdateBag(orderProductResult as OrderProductDto);
         }
       },
       child: Padding(
