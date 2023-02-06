@@ -8,15 +8,10 @@ import '../../models/product_model.dart';
 part 'home_state.g.dart';
 
 @match
-enum HomeStateStatus {
-  initial,
-  loading,
-  loaded,
-  error,
-}
+enum HomeStatus { initial, loading, loaded, error }
 
 class HomeState extends Equatable {
-  final HomeStateStatus status;
+  final HomeStatus status;
   final List<ProductModel> products;
   final List<OrderProductDto> shoppingBag;
   final String? errorMessage;
@@ -29,7 +24,7 @@ class HomeState extends Equatable {
   });
 
   const HomeState.initial()
-      : status = HomeStateStatus.initial,
+      : status = HomeStatus.initial,
         products = const [],
         shoppingBag = const [],
         errorMessage = null;
@@ -38,7 +33,7 @@ class HomeState extends Equatable {
   List<Object?> get props => [status, products, shoppingBag, errorMessage];
 
   HomeState copyWith({
-    HomeStateStatus? status,
+    HomeStatus? status,
     List<ProductModel>? products,
     String? errorMessage,
     List<OrderProductDto>? shoppingBag,

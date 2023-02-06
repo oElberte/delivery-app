@@ -15,14 +15,14 @@ class HomeController extends Cubit<HomeState> {
   ) : super(const HomeState.initial());
 
   Future<void> loadProducts() async {
-    emit(state.copyWith(status: HomeStateStatus.loading));
+    emit(state.copyWith(status: HomeStatus.loading));
     try {
       final products = await _productsRepository.findAllProducts();
-      emit(state.copyWith(status: HomeStateStatus.loaded, products: products));
+      emit(state.copyWith(status: HomeStatus.loaded, products: products));
     } catch (e, s) {
       log('Erro ao buscar produtos', error: e, stackTrace: s);
       emit(state.copyWith(
-        status: HomeStateStatus.error,
+        status: HomeStatus.error,
         errorMessage: 'Erro ao buscar produtos',
       ));
     }
@@ -30,7 +30,8 @@ class HomeController extends Cubit<HomeState> {
 
   void addOrUpdateBag(OrderProductDto orderProduct) {
     final shoppingBag = [...state.shoppingBag];
-    final orderIndex = shoppingBag.indexWhere((orderP) => orderP.product == orderProduct.product);
+    final orderIndex = shoppingBag
+        .indexWhere((orderP) => orderP.product == orderProduct.product);
 
     if (orderIndex > -1) {
       if (orderProduct.amount == 0) {
