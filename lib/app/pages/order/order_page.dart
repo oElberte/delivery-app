@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validatorless/validatorless.dart';
 
+import '../../core/extensions/formatter_extension.dart';
 import '../../core/ui/base_state/base_state.dart';
 import '../../core/ui/styles/text_styles.dart';
 import '../../core/ui/widgets/delivery_app_bar.dart';
@@ -110,11 +111,17 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
                               fontSize: 16,
                             ),
                           ),
-                          Text(
-                            r'R$ 39.80',
-                            style: context.textStyles.textExtraBold.copyWith(
-                              fontSize: 20,
-                            ),
+                          BlocSelector<OrderController, OrderState, double>(
+                            selector: (state) => state.totalOrder,
+                            builder: (context, totalOrder) {
+                              return Text(
+                                totalOrder.currencyPTBR,
+                                style:
+                                    context.textStyles.textExtraBold.copyWith(
+                                  fontSize: 20,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -168,7 +175,8 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
                         height: 48,
                         label: 'FINALIZAR',
                         onPressed: () {
-                          final valid = formKey.currentState?.validate() ?? false;
+                          final valid =
+                              formKey.currentState?.validate() ?? false;
                           final paymentTypeSelected = paymentTypeId != null;
                           paymentTypeValid.value = paymentTypeSelected;
 
