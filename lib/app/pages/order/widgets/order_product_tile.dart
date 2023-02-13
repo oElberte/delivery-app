@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/extensions/formatter_extension.dart';
 import '../../../core/ui/styles/colors_app.dart';
 import '../../../core/ui/styles/text_styles.dart';
 import '../../../core/ui/widgets/delivery_increment_decrement_button.dart';
@@ -17,12 +18,14 @@ class OrderProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final product = orderProduct.product;
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Row(
         children: [
           Image.network(
-            'http://www.saboresajinomoto.com.br/uploads/images/recipes/sanduiche-de-churrasco.jpg',
+            product.image,
             width: 100,
             height: 100,
             fit: BoxFit.cover,
@@ -34,7 +37,7 @@ class OrderProductTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'X-Burguer',
+                    product.name,
                     style: context.textStyles.textRegular.copyWith(
                       fontSize: 16,
                     ),
@@ -43,7 +46,7 @@ class OrderProductTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '19,90',
+                        (orderProduct.amount * product.price).currencyPTBR,
                         style: context.textStyles.textMedium.copyWith(
                           fontSize: 14,
                           color: context.colors.secondary,
