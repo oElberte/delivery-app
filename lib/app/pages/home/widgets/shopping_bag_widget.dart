@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/extensions/formatter_extension.dart';
 import '../../../core/ui/helpers/size_extensions.dart';
 import '../../../core/ui/styles/text_styles.dart';
 import '../../../dto/order_product_dto.dart';
+import '../home_controller.dart';
 
 class ShoppingBagWidget extends StatelessWidget {
   final List<OrderProductDto> bag;
@@ -13,6 +15,7 @@ class ShoppingBagWidget extends StatelessWidget {
 
   Future<void> _goOrder(BuildContext context) async {
     final navigator = Navigator.of(context);
+    final controller = context.read<HomeController>();
     final sp = await SharedPreferences.getInstance();
     if (!sp.containsKey('accessToken')) {
       // Envio para o login
@@ -23,7 +26,8 @@ class ShoppingBagWidget extends StatelessWidget {
       }
     }
     // Envio para o order
-    await navigator.pushNamed('/order', arguments: bag);
+    final updatedBag = await navigator.pushNamed('/order', arguments: bag);
+    controller.updateBag(updatedBag as List<OrderProductDto>);
   }
 
   @override
