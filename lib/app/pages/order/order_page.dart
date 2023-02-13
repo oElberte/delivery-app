@@ -27,7 +27,6 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
   @override
   void onReady() {
     controller.load(widget.products);
-    super.onReady();
   }
 
   @override
