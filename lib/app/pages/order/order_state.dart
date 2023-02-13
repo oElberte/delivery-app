@@ -13,6 +13,8 @@ enum OrderStatus {
   loaded,
   error,
   updateOrder,
+  confirmDeleteProduct,
+  emptyBag,
 }
 
 class OrderState extends Equatable {
@@ -60,4 +62,18 @@ class OrderState extends Equatable {
         paymentTypes,
         errorMessage,
       ];
+}
+
+class OrderConfirmDeleteProductState extends OrderState {
+  final OrderProductDto orderProduct;
+  final int index;
+
+  const OrderConfirmDeleteProductState({
+    required this.orderProduct,
+    required this.index,
+    required super.status,
+    required super.orderProducts,
+    required super.paymentTypes,
+    super.errorMessage,
+  });
 }
