@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../dto/order_dto.dart';
 import '../../dto/order_product_dto.dart';
 import '../../repositories/order/order_repository.dart';
 import 'order_state.dart';
@@ -25,7 +26,9 @@ class OrderController extends Cubit<OrderState> {
       log('Erro ao carregar página', error: e, stackTrace: s);
       emit(
         state.copyWith(
-            status: OrderStatus.error, errorMessage: 'Erro ao carregar página'),
+          status: OrderStatus.error,
+          errorMessage: 'Erro ao carregar página',
+        ),
       );
     }
   }
@@ -78,5 +81,32 @@ class OrderController extends Cubit<OrderState> {
 
   void emptyBag() {
     emit(state.copyWith(status: OrderStatus.emptyBag));
+  }
+
+  void saveOrder({
+    required String address,
+    required String document,
+    required int paymentMethodId,
+  }) async {
+    try {
+      emit(state.copyWith(status: OrderStatus.loading));
+      await _orderRepository.saveOrder(
+        OrderDto(
+          products: state.orderProducts,
+          address: address,
+          document: document,
+          paymentMethodId: paymentMethodId,
+        ),
+      );
+      emit(state.copyWith(status: OrderStatus.success));
+    } catch (e, s) {
+      log('Erro ao finalizar o pedido', error: e, stackTrace: s);
+      emit(
+        state.copyWith(
+          status: OrderStatus.error,
+          errorMessage: 'Erro ao finalizar o pedido',
+        ),
+      );
+    }
   }
 }

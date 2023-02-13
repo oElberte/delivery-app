@@ -7,6 +7,7 @@ import '../../core/ui/base_state/base_state.dart';
 import '../../core/ui/styles/text_styles.dart';
 import '../../core/ui/widgets/delivery_app_bar.dart';
 import '../../core/ui/widgets/delivery_button.dart';
+import '../../dto/order_dto.dart';
 import '../../dto/order_product_dto.dart';
 import '../../models/payment_type_model.dart';
 import 'order_controller.dart';
@@ -79,26 +80,32 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
     return BlocListener<OrderController, OrderState>(
       listener: (context, state) {
         state.status.matchAny(
-          any: () => hideLoader(),
-          loading: () => showLoader(),
-          error: () {
-            hideLoader();
-            showError(state.errorMessage ?? 'Erro inesperado');
-          },
-          confirmDeleteProduct: () {
-            hideLoader();
-            if (state is OrderConfirmDeleteProductState) {
-              _showConfirmProductDialog(state);
-            }
-          },
-          emptyBag: () {
-            hideLoader();
-            showInfo(
-              'Sua sacola está vazia, por favor selecione um produto para realizar o seu pedido',
-            );
-            Navigator.of(context).pop(<OrderProductDto>[]);
-          },
-        );
+            any: () => hideLoader(),
+            loading: () => showLoader(),
+            error: () {
+              hideLoader();
+              showError(state.errorMessage ?? 'Erro inesperado');
+            },
+            confirmDeleteProduct: () {
+              hideLoader();
+              if (state is OrderConfirmDeleteProductState) {
+                _showConfirmProductDialog(state);
+              }
+            },
+            emptyBag: () {
+              hideLoader();
+              showInfo(
+                'Sua sacola está vazia, por favor selecione um produto para realizar o seu pedido',
+              );
+              Navigator.of(context).pop(<OrderProductDto>[]);
+            },
+            success: () {
+              hideLoader();
+              Navigator.of(context).popAndPushNamed(
+                '/order/completed',
+                result: <OrderProductDto>[],
+              );
+            });
       },
       child: WillPopScope(
         onWillPop: () async {
@@ -233,11 +240,18 @@ class _OrderPageState extends BaseState<OrderPage, OrderController> {
                           height: 48,
                           label: 'FINALIZAR',
                           onPressed: () {
-                            final valid = formKey.currentState?.validate() ?? false;
+                            final valid =
+                                formKey.currentState?.validate() ?? false;
                             final paymentTypeSelected = paymentTypeId != null;
                             paymentTypeValid.value = paymentTypeSelected;
 
-                            if (valid && paymentTypeSelected) {}
+                            if (valid && paymentTypeSelected) {
+                              controller.saveOrder(
+                                address: addressEC.text,
+                                document: documentEC.text,
+                                paymentMethodId: paymentTypeId!,
+                              );
+                            }
                           },
                         ),
                       ),
