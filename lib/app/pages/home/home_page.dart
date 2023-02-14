@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/ui/base_state/base_state.dart';
 import '../../core/ui/widgets/delivery_app_bar.dart';
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends BaseState<HomePage, HomeController> {
   @override
   void onReady() {
+    // SharedPreferences.getInstance().then((value) => value.clear());
     controller.loadProducts();
   }
 
@@ -49,7 +51,8 @@ class _HomePageState extends BaseState<HomePage, HomeController> {
                   itemCount: state.products.length,
                   itemBuilder: (context, index) {
                     final product = state.products[index];
-                    final orders = state.shoppingBag.where((order) => order.product == product);
+                    final orders = state.shoppingBag
+                        .where((order) => order.product == product);
 
                     return DeliveryProductTile(
                       product: product,

@@ -23,6 +23,9 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
 
+  final _obscureText1 = ValueNotifier<bool>(true);
+  final _obscureText2 = ValueNotifier<bool>(true);
+
   @override
   void dispose() {
     _nameEC.dispose();
@@ -83,33 +86,52 @@ class _RegisterPageState extends BaseState<RegisterPage, RegisterController> {
                     ]),
                   ),
                   const SizedBox(height: 30),
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: 'Senha'),
-                    controller: _passwordEC,
-                    validator: Validatorless.multiple([
-                      Validatorless.required('Senha obrigatória'),
-                      Validatorless.min(6, 'Mínimo de 6 caracteres'),
-                    ]),
-                    obscureText: true,
+                  ValueListenableBuilder(
+                    valueListenable: _obscureText1,
+                    builder: (_, obscureText, child) {
+                      return TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Senha',
+                          suffixIcon: IconButton(
+                            onPressed: () => _obscureText1.value = !_obscureText1.value,
+                            icon: obscureText ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+                          ),
+                        ),
+                        controller: _passwordEC,
+                        validator: Validatorless.multiple([
+                          Validatorless.required('Senha obrigatória'),
+                          Validatorless.min(6, 'Mínimo de 6 caracteres'),
+                        ]),
+                        obscureText: obscureText,
+                      );
+                    },
                   ),
                   const SizedBox(height: 30),
-                  TextFormField(
-                    decoration:
-                        const InputDecoration(labelText: 'Confirmar senha'),
-                    validator: Validatorless.multiple([
-                      Validatorless.required(
-                          'Confirmação de senha obrigatória'),
-                      Validatorless.compare(_passwordEC, 'Senhas não conferem'),
-                    ]),
-                    obscureText: true,
+                  ValueListenableBuilder(
+                    valueListenable: _obscureText2,
+                    builder: (_, obscureText, child) {
+                      return TextFormField(
+                        decoration: InputDecoration(
+                          labelText: 'Confirmar senha',
+                          suffixIcon: IconButton(
+                            onPressed: () => _obscureText2.value = !_obscureText2.value,
+                            icon: obscureText ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+                          ),
+                        ),
+                        validator: Validatorless.multiple([
+                          Validatorless.required('Confirmação de senha obrigatória'),
+                          Validatorless.compare(_passwordEC, 'Senhas não conferem'),
+                        ]),
+                        obscureText: obscureText,
+                      );
+                    },
                   ),
                   const SizedBox(height: 30),
                   Center(
                     child: DeliveryButton(
                       label: 'CADASTRAR',
                       onPressed: () {
-                        final valid =
-                            _formKey.currentState?.validate() ?? false;
+                        final valid = _formKey.currentState?.validate() ?? false;
                         if (valid) {
                           controller.register(
                             _nameEC.text,

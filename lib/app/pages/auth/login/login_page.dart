@@ -20,6 +20,7 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
   final _formKey = GlobalKey<FormState>();
   final _emailEC = TextEditingController();
   final _passwordEC = TextEditingController();
+  final _obscureText = ValueNotifier<bool>(true);
 
   @override
   void dispose() {
@@ -74,13 +75,22 @@ class _LoginPageState extends BaseState<LoginPage, LoginController> {
                         controller: _emailEC,
                       ),
                       const SizedBox(height: 30),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          label: Text('Senha'),
-                        ),
-                        validator: Validatorless.required('Senha obrigatória'),
-                        controller: _passwordEC,
-                        obscureText: true,
+                      ValueListenableBuilder(
+                        valueListenable: _obscureText,
+                        builder: (_, obscureText, child) {
+                          return TextFormField(
+                            decoration: InputDecoration(
+                              label: const Text('Senha'),
+                              suffixIcon: IconButton(
+                                onPressed: () => _obscureText.value = !_obscureText.value,
+                                icon: obscureText ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+                              ),
+                            ),
+                            validator: Validatorless.required('Senha obrigatória'),
+                            controller: _passwordEC,
+                            obscureText: obscureText,
+                          );
+                        },
                       ),
                       const SizedBox(height: 50),
                       Center(
