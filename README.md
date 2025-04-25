@@ -1,3 +1,3 @@
-# Imersão Dart Week 9 - Academia do Flutter
+# Delivery App
 
-App de Delivery feito durante a 9ª edição da Imersão Dart Week do Rodrigo Rahman.
+Delivery app for clients and shops to register.
