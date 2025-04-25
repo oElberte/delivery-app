@@ -7,7 +7,6 @@ import '../../core/ui/base_state/base_state.dart';
 import '../../core/ui/styles/text_styles.dart';
 import '../../core/ui/widgets/delivery_app_bar.dart';
 import '../../core/ui/widgets/delivery_button.dart';
-import '../../dto/order_dto.dart';
 import '../../dto/order_product_dto.dart';
 import '../../models/payment_type_model.dart';
 import 'order_controller.dart';

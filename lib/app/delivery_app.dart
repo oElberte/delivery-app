@@ -11,10 +11,10 @@ import 'pages/order/order_router.dart';
 import 'pages/product_detail/product_detail_router.dart';
 import 'pages/splash/splash_page.dart';
 
-class Dw9DeliveryApp extends StatelessWidget {
+class DeliveryApp extends StatelessWidget {
   final _navKey = GlobalKey<NavigatorState>();
 
-  Dw9DeliveryApp({super.key}){
+  DeliveryApp({super.key}) {
     GlobalContext.i.navigatorKey = _navKey;
   }
 
