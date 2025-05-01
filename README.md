@@ -58,3 +58,13 @@ lib/
 │   └── delivery_app.dart  # Main app widget
 └── main.dart          # Entry point
 ```
+
+## 📸 Screenshots
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: flex-start;">
+    <img src="screenshots/1.png" width="200" alt="Splash Page">
+    <img src="screenshots/2.png" width="200" alt="Registers Page">
+    <img src="screenshots/3.png" width="200" alt="Items List">
+    <img src="screenshots/4.png" width="200" alt="Item Details">
+    <img src="screenshots/5.png" width="200" alt="Shopping Cart">
+</div>
